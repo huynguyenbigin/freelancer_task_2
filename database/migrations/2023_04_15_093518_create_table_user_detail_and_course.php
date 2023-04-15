@@ -22,7 +22,7 @@ class CreateTableUserDetailAndCourse extends Migration
             $table->timestamps();
         });
 
-        Schema::create('course', function (Blueprint $table) {
+        Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
@@ -31,6 +31,22 @@ class CreateTableUserDetailAndCourse extends Migration
         });
 
         Schema::create('threads', function (Blueprint $table) {
+            $table->id();
+            $table->integer('course_id');
+            $table->text('content')->nullable();
+            $table->integer('user_id');
+            $table->timestamps();
+        });
+
+        Schema::create('thread_replies', function (Blueprint $table) {
+            $table->id();
+            $table->integer('thread_id');
+            $table->text('content')->nullable();
+            $table->integer('user_id');
+            $table->timestamps();
+        });
+
+        Schema::create('user_courses', function (Blueprint $table) {
             $table->id();
             $table->integer('course_id');
             $table->integer('user_id');
@@ -46,7 +62,9 @@ class CreateTableUserDetailAndCourse extends Migration
     public function down()
     {
         Schema::dropIfExists('user_details');
-        Schema::dropIfExists('course');
+        Schema::dropIfExists('courses');
         Schema::dropIfExists('threads');
+        Schema::dropIfExists('user_courses');
+        Schema::dropIfExists('thread_replies');
     }
 }
